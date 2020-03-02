@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
@@ -18,7 +17,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.hoxfon.react.RNTwilioVoice.BuildConfig;
 import com.hoxfon.react.RNTwilioVoice.CallNotificationManager;
 import com.twilio.voice.CallInvite;
-import com.twilio.voice.MessageException;
+// import com.twilio.voice.MessageException;
 import com.twilio.voice.MessageListener;
 import com.twilio.voice.Voice;
 
@@ -59,16 +58,16 @@ public class VoiceFirebaseMessagingService {
     /*
      * Send the IncomingCallMessage to the TwilioVoiceModule
      */
-    private void sendIncomingCallMessageToActivity(
-            ReactApplicationContext context,
-            CallInvite callInvite,
-            int notificationId
-    ) {
-        Intent intent = new Intent(ACTION_INCOMING_CALL);
-        intent.putExtra(INCOMING_CALL_NOTIFICATION_ID, notificationId);
-        intent.putExtra(INCOMING_CALL_INVITE, callInvite);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
+    // private void sendIncomingCallMessageToActivity(
+    //         ReactApplicationContext context,
+    //         CallInvite callInvite,
+    //         int notificationId
+    // ) {
+    //     Intent intent = new Intent(ACTION_INCOMING_CALL);
+    //     intent.putExtra(INCOMING_CALL_NOTIFICATION_ID, notificationId);
+    //     intent.putExtra(INCOMING_CALL_INVITE, callInvite);
+    //     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    // }
 
     /*
      * Show the notification in the Android notification drawer

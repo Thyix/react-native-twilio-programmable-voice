@@ -1,7 +1,6 @@
 package com.hoxfon.react.RNTwilioVoice.fcm;
 
 import android.content.Intent;
-import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 
 import static com.hoxfon.react.RNTwilioVoice.TwilioVoiceModule.ACTION_FCM_TOKEN;

@@ -15,9 +15,6 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 
-import androidx.app.ActivityCompat;
-import androidx.content.ContextCompat;
-import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -155,14 +152,14 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
         }
     }
 
-    @Override
-    public void onHostResume() {
-        /*
-         * Enable changing the volume using the up/down keys during a conversation
-         */
-        getCurrentActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-        registerReceiver();
-    }
+    // @Override
+    // public void onHostResume() {
+    //     /*
+    //      * Enable changing the volume using the up/down keys during a conversation
+    //      */
+    //     getCurrentActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+    //     registerReceiver();
+    // }
 
     @Override
     public void onHostPause() {
@@ -309,18 +306,18 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
 
     /**
      * Register the Voice broadcast receiver
-     */
-    private void registerReceiver() {
-        if (!isReceiverRegistered) {
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(ACTION_INCOMING_CALL);
-            intentFilter.addAction(ACTION_MISSED_CALL);
-            LocalBroadcastManager.getInstance(getReactApplicationContext()).registerReceiver(
-                    voiceBroadcastReceiver, intentFilter);
-            registerActionReceiver();
-            isReceiverRegistered = true;
-        }
-    }
+    //  */
+    // private void registerReceiver() {
+    //     if (!isReceiverRegistered) {
+    //         IntentFilter intentFilter = new IntentFilter();
+    //         intentFilter.addAction(ACTION_INCOMING_CALL);
+    //         intentFilter.addAction(ACTION_MISSED_CALL);
+    //         LocalBroadcastManager.getInstance(getReactApplicationContext()).registerReceiver(
+    //                 voiceBroadcastReceiver, intentFilter);
+    //         registerActionReceiver();
+    //         isReceiverRegistered = true;
+    //     }
+    // }
 
 //    private void unregisterReceiver() {
 //        if (isReceiverRegistered) {
@@ -545,66 +542,66 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
             Voice.register(getReactApplicationContext(), accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
     }
 
-    @ReactMethod
-    public void accept() {
-        callAccepted = true;
-        SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
-        if (activeCallInvite != null){
-            if (activeCallInvite.getState() == CallInvite.State.PENDING) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "accept() activeCallInvite.getState() PENDING");
-                }
-                activeCallInvite.accept(getReactApplicationContext(), callListener);
-                clearIncomingNotification(activeCallInvite);
-            } else {
-                // when the user answers a call from a notification before the react-native App
-                // is completely initialised, and the first event has been skipped
-                // re-send connectionDidConnect message to JS
-                WritableMap params = Arguments.createMap();
-                params.putString("call_sid",   activeCallInvite.getCallSid());
-                params.putString("call_from",  activeCallInvite.getFrom());
-                params.putString("call_to",    activeCallInvite.getTo());
-                params.putString("call_state", activeCallInvite.getState().name());
-                callNotificationManager.createHangupLocalNotification(getReactApplicationContext(),
-                        activeCallInvite.getCallSid(),
-                        activeCallInvite.getFrom());
-                eventManager.sendEvent(EVENT_CONNECTION_DID_CONNECT, params);
-            }
-        } else {
-            eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, null);
-        }
-    }
+    // @ReactMethod
+    // public void accept() {
+    //     callAccepted = true;
+    //     SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
+    //     if (activeCallInvite != null){
+    //         if (activeCallInvite.getState() == CallInvite.State.PENDING) {
+    //             if (BuildConfig.DEBUG) {
+    //                 Log.d(TAG, "accept() activeCallInvite.getState() PENDING");
+    //             }
+    //             activeCallInvite.accept(getReactApplicationContext(), callListener);
+    //             clearIncomingNotification(activeCallInvite);
+    //         } else {
+    //             // when the user answers a call from a notification before the react-native App
+    //             // is completely initialised, and the first event has been skipped
+    //             // re-send connectionDidConnect message to JS
+    //             WritableMap params = Arguments.createMap();
+    //             params.putString("call_sid",   activeCallInvite.getCallSid());
+    //             params.putString("call_from",  activeCallInvite.getFrom());
+    //             params.putString("call_to",    activeCallInvite.getTo());
+    //             params.putString("call_state", activeCallInvite.getState().name());
+    //             callNotificationManager.createHangupLocalNotification(getReactApplicationContext(),
+    //                     activeCallInvite.getCallSid(),
+    //                     activeCallInvite.getFrom());
+    //             eventManager.sendEvent(EVENT_CONNECTION_DID_CONNECT, params);
+    //         }
+    //     } else {
+    //         eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, null);
+    //     }
+    // }
 
-    @ReactMethod
-    public void reject() {
-        callAccepted = false;
-        SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
-        WritableMap params = Arguments.createMap();
-        if (activeCallInvite != null){
-            params.putString("call_sid",   activeCallInvite.getCallSid());
-            params.putString("call_from",  activeCallInvite.getFrom());
-            params.putString("call_to",    activeCallInvite.getTo());
-            params.putString("call_state", activeCallInvite.getState().name());
-            activeCallInvite.reject(getReactApplicationContext());
-            clearIncomingNotification(activeCallInvite);
-        }
-        eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, params);
-    }
+    // @ReactMethod
+    // public void reject() {
+    //     callAccepted = false;
+    //     SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
+    //     WritableMap params = Arguments.createMap();
+    //     if (activeCallInvite != null){
+    //         params.putString("call_sid",   activeCallInvite.getCallSid());
+    //         params.putString("call_from",  activeCallInvite.getFrom());
+    //         params.putString("call_to",    activeCallInvite.getTo());
+    //         params.putString("call_state", activeCallInvite.getState().name());
+    //         activeCallInvite.reject(getReactApplicationContext());
+    //         clearIncomingNotification(activeCallInvite);
+    //     }
+    //     eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, params);
+    // }
 
-    @ReactMethod
-    public void ignore() {
-        callAccepted = false;
-        SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
-        WritableMap params = Arguments.createMap();
-        if (activeCallInvite != null){
-            params.putString("call_sid",   activeCallInvite.getCallSid());
-            params.putString("call_from",  activeCallInvite.getFrom());
-            params.putString("call_to",    activeCallInvite.getTo());
-            params.putString("call_state", activeCallInvite.getState().name());
-            clearIncomingNotification(activeCallInvite);
-        }
-        eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, params);
-    }
+    // @ReactMethod
+    // public void ignore() {
+    //     callAccepted = false;
+    //     SoundPoolManager.getInstance(getReactApplicationContext()).stopRinging();
+    //     WritableMap params = Arguments.createMap();
+    //     if (activeCallInvite != null){
+    //         params.putString("call_sid",   activeCallInvite.getCallSid());
+    //         params.putString("call_from",  activeCallInvite.getFrom());
+    //         params.putString("call_to",    activeCallInvite.getTo());
+    //         params.putString("call_state", activeCallInvite.getState().name());
+    //         clearIncomingNotification(activeCallInvite);
+    //     }
+    //     eventManager.sendEvent(EVENT_CONNECTION_DID_DISCONNECT, params);
+    // }
 
     @ReactMethod
     public void connect(ReadableMap params) {
@@ -768,20 +765,20 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
         }
     }
 
-    private boolean checkPermissionForMicrophone() {
-        int resultMic = ContextCompat.checkSelfPermission(getReactApplicationContext(), Manifest.permission.RECORD_AUDIO);
-        return resultMic == PackageManager.PERMISSION_GRANTED;
-    }
+    // private boolean checkPermissionForMicrophone() {
+    //     int resultMic = ContextCompat.checkSelfPermission(getReactApplicationContext(), Manifest.permission.RECORD_AUDIO);
+    //     return resultMic == PackageManager.PERMISSION_GRANTED;
+    // }
 
-    private void requestPermissionForMicrophone() {
-        if (getCurrentActivity() != null) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getCurrentActivity(), Manifest.permission.RECORD_AUDIO)) {
-    //            Snackbar.make(coordinatorLayout,
-    //                    "Microphone permissions needed. Please allow in your application settings.",
-    //                    SNACKBAR_DURATION).show();
-            } else {
-                ActivityCompat.requestPermissions(getCurrentActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, MIC_PERMISSION_REQUEST_CODE);
-            }
-        }
-    }
+    // private void requestPermissionForMicrophone() {
+    //     if (getCurrentActivity() != null) {
+    //         if (ActivityCompat.shouldShowRequestPermissionRationale(getCurrentActivity(), Manifest.permission.RECORD_AUDIO)) {
+    // //            Snackbar.make(coordinatorLayout,
+    // //                    "Microphone permissions needed. Please allow in your application settings.",
+    // //                    SNACKBAR_DURATION).show();
+    //         } else {
+    //             ActivityCompat.requestPermissions(getCurrentActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, MIC_PERMISSION_REQUEST_CODE);
+    //         }
+    //     }
+    // }
 }
