@@ -4,10 +4,10 @@ import android.annotation.TargetApi;
 
 import android.app.ActivityManager;
 import android.content.Intent;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
@@ -93,7 +93,7 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                                 if (appImportance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                                     context.startActivity(launchIntent);
                                 }
-                                VoiceFirebaseMessagingService.this.handleIncomingCall((ReactApplicationContext)context, notificationId, callInvite, launchIntent);
+                                // VoiceFirebaseMessagingService.this.handleIncomingCall((ReactApplicationContext)context, notificationId, callInvite, launchIntent);
                             } else {
                                 // Otherwise wait for construction, then handle the incoming call
                                 mReactInstanceManager.addReactInstanceEventListener(new ReactInstanceManager.ReactInstanceEventListener() {
@@ -104,7 +104,7 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                                         }
                                         Intent launchIntent = callNotificationManager.getLaunchIntent((ReactApplicationContext)context, notificationId, callInvite, true, appImportance);
                                         context.startActivity(launchIntent);
-                                        VoiceFirebaseMessagingService.this.handleIncomingCall((ReactApplicationContext)context, notificationId, callInvite, launchIntent);
+                                        // VoiceFirebaseMessagingService.this.handleIncomingCall((ReactApplicationContext)context, notificationId, callInvite, launchIntent);
                                     }
                                 });
                                 if (!mReactInstanceManager.hasStartedCreatingInitialContext()) {

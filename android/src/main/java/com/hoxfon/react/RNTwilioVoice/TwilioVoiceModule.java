@@ -15,9 +15,9 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.app.ActivityCompat;
+import androidx.content.ContextCompat;
+import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -539,14 +539,12 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
      *
      */
     private void registerForCallInvites() {
-        FirebaseApp.initializeApp(getReactApplicationContext());
-        final String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        if (fcmToken != null) {
+        // FirebaseApp.initializeApp(getReactApplicationContext());
+        // final String fcmToken = FirebaseInstanceId.getInstance().getToken();
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Registering with FCM");
             }
             Voice.register(getReactApplicationContext(), accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
-        }
     }
 
     @ReactMethod

@@ -1,15 +1,13 @@
 package com.hoxfon.react.RNTwilioVoice.fcm;
 
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
 import static com.hoxfon.react.RNTwilioVoice.TwilioVoiceModule.ACTION_FCM_TOKEN;
 import static com.hoxfon.react.RNTwilioVoice.TwilioVoiceModule.TAG;
 
-public class VoiceFirebaseInstanceIDService extends FirebaseInstanceIdService {
+public class VoiceFirebaseInstanceIDService {
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -19,13 +17,13 @@ public class VoiceFirebaseInstanceIDService extends FirebaseInstanceIdService {
     // [START refresh_token]
     @Override
     public void onTokenRefresh() {
-        // Get updated InstanceID token.
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        // // Get updated InstanceID token.
+        // String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        // Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        // Notify Activity of FCM token
-        Intent intent = new Intent(ACTION_FCM_TOKEN);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        // // Notify Activity of FCM token
+        // Intent intent = new Intent(ACTION_FCM_TOKEN);
+        // LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
     // [END refresh_token]
 
