@@ -36,7 +36,7 @@ public class VoiceFirebaseMessagingService {
 
     @Override
     public void onCreate() {
-        super.onCreate();
+        // super.onCreate();
         callNotificationManager = new CallNotificationManager();
     }
 
