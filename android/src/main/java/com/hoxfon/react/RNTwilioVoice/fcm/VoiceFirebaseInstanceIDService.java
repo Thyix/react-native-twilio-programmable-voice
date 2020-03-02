@@ -14,7 +14,6 @@ public class VoiceFirebaseInstanceIDService {
      * is initially generated so this is where you would retrieve the token.
      */
     // [START refresh_token]
-    @Override
     public void onTokenRefresh() {
         // // Get updated InstanceID token.
         // String refreshedToken = FirebaseInstanceId.getInstance().getToken();

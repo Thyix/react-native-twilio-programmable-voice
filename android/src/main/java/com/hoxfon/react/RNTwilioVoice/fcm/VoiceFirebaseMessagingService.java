@@ -46,14 +46,14 @@ public class VoiceFirebaseMessagingService {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
 
-    private void handleIncomingCall(ReactApplicationContext context,
-                                    int notificationId,
-                                    CallInvite callInvite,
-                                    Intent launchIntent
-    ) {
-        sendIncomingCallMessageToActivity(context, callInvite, notificationId);
-        showNotification(context, callInvite, notificationId, launchIntent);
-    }
+    // private void handleIncomingCall(ReactApplicationContext context,
+    //                                 int notificationId,
+    //                                 CallInvite callInvite,
+    //                                 Intent launchIntent
+    // ) {
+    //     sendIncomingCallMessageToActivity(context, callInvite, notificationId);
+    //     showNotification(context, callInvite, notificationId, launchIntent);
+    // }
 
     /*
      * Send the IncomingCallMessage to the TwilioVoiceModule
@@ -71,18 +71,18 @@ public class VoiceFirebaseMessagingService {
 
     /*
      * Show the notification in the Android notification drawer
-     */
-    @TargetApi(20)
-    private void showNotification(ReactApplicationContext context,
-                                  CallInvite callInvite,
-                                  int notificationId,
-                                  Intent launchIntent
-    ) {
-        if (callInvite != null && callInvite.getState() == CallInvite.State.PENDING) {
-            callNotificationManager.createIncomingCallNotification(context, callInvite, notificationId, launchIntent);
-        } else {
-            SoundPoolManager.getInstance(context.getBaseContext()).stopRinging();
-            callNotificationManager.removeIncomingCallNotification(context, callInvite, 0);
-        }
-    }
+    //  */
+    // @TargetApi(20)
+    // private void showNotification(ReactApplicationContext context,
+    //                               CallInvite callInvite,
+    //                               int notificationId,
+    //                               Intent launchIntent
+    // ) {
+    //     if (callInvite != null && callInvite.getState() == CallInvite.State.PENDING) {
+    //         callNotificationManager.createIncomingCallNotification(context, callInvite, notificationId, launchIntent);
+    //     } else {
+    //         SoundPoolManager.getInstance(context.getBaseContext()).stopRinging();
+    //         callNotificationManager.removeIncomingCallNotification(context, callInvite, 0);
+    //     }
+    // }
 }
