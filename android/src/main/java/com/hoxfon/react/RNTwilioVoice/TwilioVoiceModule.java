@@ -162,6 +162,11 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
     // }
 
     @Override
+    public void onHostResume() {
+
+    }
+
+    @Override
     public void onHostPause() {
         // the library needs to listen for events even when the app is paused
 //        unregisterReceiver();
@@ -184,7 +189,7 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onNewIntent " + intent.toString());
         }
-        handleIncomingCallIntent(intent);
+        // handleIncomingCallIntent(intent);
     }
 
     private RegistrationListener registrationListener() {
@@ -300,6 +305,16 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
                 callNotificationManager.removeHangupNotification(getReactApplicationContext());
                 toNumber = "";
                 toName = "";
+            }
+
+            // @Override
+            public void onReconnected(Call call) {
+            
+            }
+
+            // @Override
+            public void onReconnecting(Call call, CallException e) {
+            
             }
         };
     }
@@ -467,20 +482,20 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ACTION_INCOMING_CALL)) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "VoiceBroadcastReceiver.onReceive ACTION_INCOMING_CALL. Intent "+ intent.getExtras());
-                }
-                handleIncomingCallIntent(intent);
-            } else if (action.equals(ACTION_MISSED_CALL)) {
-                SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
-                SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
-                sharedPrefEditor.remove(MISSED_CALLS_GROUP);
-                sharedPrefEditor.commit();
-            } else {
-                Log.e(TAG, "received broadcast unhandled action " + action);
-            }
+            // String action = intent.getAction();
+            // if (action.equals(ACTION_INCOMING_CALL)) {
+            //     if (BuildConfig.DEBUG) {
+            //         Log.d(TAG, "VoiceBroadcastReceiver.onReceive ACTION_INCOMING_CALL. Intent "+ intent.getExtras());
+            //     }
+            //     handleIncomingCallIntent(intent);
+            // } else if (action.equals(ACTION_MISSED_CALL)) {
+            //     SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+            //     SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+            //     sharedPrefEditor.remove(MISSED_CALLS_GROUP);
+            //     sharedPrefEditor.commit();
+            // } else {
+            //     Log.e(TAG, "received broadcast unhandled action " + action);
+            // }
         }
     }
 
@@ -499,7 +514,7 @@ public class TwilioVoiceModule extends ReactContextBaseJavaModule implements Act
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "initWithAccessToken ACTION_FCM_TOKEN");
         }
-        registerForCallInvites();
+        // registerForCallInvites();
         WritableMap params = Arguments.createMap();
         params.putBoolean("initialized", true);
         promise.resolve(params);
